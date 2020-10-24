@@ -1,1 +1,407 @@
-学习笔记
+## 第一题 使用 GCLogAnalysis.java 自己演练一遍串行/并行/CMS/G1的案例
+### 串行
+```
+$>java -XX:+UseSerialGC -Xms216m -Xmx216m  -XX:+PrintGC GCLogAnalysis
+```
+```
+2020-10-25T00:02:35.162+0800: [GC (Allocation Failure)  58917K->21050K(213824K), 0.0084469 secs]
+2020-10-25T00:02:35.181+0800: [GC (Allocation Failure)  79770K->44529K(213824K), 0.0109572 secs]
+2020-10-25T00:02:35.198+0800: [GC (Allocation Failure)  103240K->69594K(213824K), 0.0095145 secs]
+2020-10-25T00:02:35.214+0800: [GC (Allocation Failure)  128602K->89947K(213824K), 0.0079575 secs]
+2020-10-25T00:02:35.231+0800: [GC (Allocation Failure)  148955K->106635K(213824K), 0.0063533 secs]
+2020-10-25T00:02:35.245+0800: [GC (Allocation Failure)  165643K->124271K(213824K), 0.0068790 secs]
+2020-10-25T00:02:35.259+0800: [GC (Allocation Failure)  183279K->143669K(213824K), 0.0070534 secs]
+2020-10-25T00:02:35.272+0800: [Full GC (Allocation Failure)  202677K->146193K(213824K), 0.0176401 secs]
+2020-10-25T00:02:35.297+0800: [Full GC (Allocation Failure)  205201K->160408K(213824K), 0.0177849 secs]
+2020-10-25T00:02:35.321+0800: [Full GC (Allocation Failure)  213794K->172257K(213824K), 0.0196187 secs]
+2020-10-25T00:02:35.347+0800: [Full GC (Allocation Failure)  213800K->171324K(213824K), 0.0224045 secs]
+2020-10-25T00:02:35.375+0800: [Full GC (Allocation Failure)  213691K->185691K(213824K), 0.0061097 secs]
+2020-10-25T00:02:35.385+0800: [Full GC (Allocation Failure)  213660K->188157K(213824K), 0.0123669 secs]
+2020-10-25T00:02:35.400+0800: [Full GC (Allocation Failure)  213682K->192751K(213824K), 0.0140503 secs]
+2020-10-25T00:02:35.417+0800: [Full GC (Allocation Failure)  213576K->192403K(213824K), 0.0249171 secs]
+2020-10-25T00:02:35.445+0800: [Full GC (Allocation Failure)  213651K->198454K(213824K), 0.0051177 secs]
+2020-10-25T00:02:35.452+0800: [Full GC (Allocation Failure)  213684K->203053K(213824K), 0.0071707 secs]
+2020-10-25T00:02:35.461+0800: [Full GC (Allocation Failure)  213394K->204621K(213824K), 0.0062265 secs]
+2020-10-25T00:02:35.469+0800: [Full GC (Allocation Failure)  213573K->200579K(213824K), 0.0260106 secs]
+2020-10-25T00:02:35.497+0800: [Full GC (Allocation Failure)  213743K->203737K(213824K), 0.0041093 secs]
+2020-10-25T00:02:35.502+0800: [Full GC (Allocation Failure)  213361K->206363K(213824K), 0.0055804 secs]
+2020-10-25T00:02:35.510+0800: [Full GC (Allocation Failure)  213693K->207969K(213824K), 0.0049375 secs]
+2020-10-25T00:02:35.515+0800: [Full GC (Allocation Failure)  213774K->204577K(213824K), 0.0221307 secs]
+2020-10-25T00:02:35.539+0800: [Full GC (Allocation Failure)  213649K->207270K(213824K), 0.0060946 secs]
+2020-10-25T00:02:35.546+0800: [Full GC (Allocation Failure)  213795K->208977K(213824K), 0.0019416 secs]
+2020-10-25T00:02:35.549+0800: [Full GC (Allocation Failure)  213795K->210728K(213824K), 0.0042085 secs]
+2020-10-25T00:02:35.553+0800: [Full GC (Allocation Failure)  213697K->209768K(213824K), 0.0224240 secs]
+2020-10-25T00:02:35.577+0800: [Full GC (Allocation Failure)  213745K->212271K(213824K), 0.0035590 secs]
+2020-10-25T00:02:35.581+0800: [Full GC (Allocation Failure)  213626K->212608K(213824K), 0.0016171 secs]
+2020-10-25T00:02:35.582+0800: [Full GC (Allocation Failure)  213039K->212608K(213824K), 0.0015213 secs]
+2020-10-25T00:02:35.584+0800: [Full GC (Allocation Failure)  213599K->211792K(213824K), 0.0116787 secs]
+2020-10-25T00:02:35.596+0800: [Full GC (Allocation Failure)  213529K->212217K(213824K), 0.0071560 secs]
+2020-10-25T00:02:35.604+0800: [Full GC (Allocation Failure)  213666K->212289K(213824K), 0.0024353 secs]
+2020-10-25T00:02:35.607+0800: [Full GC (Allocation Failure)  213500K->212349K(213824K), 0.0079642 secs]
+2020-10-25T00:02:35.616+0800: [Full GC (Allocation Failure)  213440K->211971K(213824K), 0.0194736 secs]
+2020-10-25T00:02:35.636+0800: [Full GC (Allocation Failure)  213791K->212459K(213824K), 0.0028546 secs]
+2020-10-25T00:02:35.639+0800: [Full GC (Allocation Failure)  213797K->212546K(213824K), 0.0042967 secs]
+2020-10-25T00:02:35.644+0800: [Full GC (Allocation Failure)  213742K->213116K(213824K), 0.0026705 secs]
+2020-10-25T00:02:35.647+0800: [Full GC (Allocation Failure)  213713K->212387K(213824K), 0.0221807 secs]
+2020-10-25T00:02:35.669+0800: [Full GC (Allocation Failure)  213208K->212361K(213824K), 0.0019433 secs]
+2020-10-25T00:02:35.672+0800: [Full GC (Allocation Failure)  213670K->213448K(213824K), 0.0040817 secs]
+2020-10-25T00:02:35.676+0800: [Full GC (Allocation Failure)  213448K->212498K(213824K), 0.0225853 secs]
+2020-10-25T00:02:35.699+0800: [Full GC (Allocation Failure)  213743K->212711K(213824K), 0.0052921 secs]
+2020-10-25T00:02:35.705+0800: [Full GC (Allocation Failure)  213647K->212812K(213824K), 0.0023790 secs]
+2020-10-25T00:02:35.709+0800: [Full GC (Allocation Failure)  213118K->212880K(213824K), 0.0022276 secs]
+2020-10-25T00:02:35.711+0800: [Full GC (Allocation Failure)  213407K->212880K(213824K), 0.0019694 secs]
+2020-10-25T00:02:35.713+0800: [Full GC (Allocation Failure)  212880K->212880K(213824K), 0.0014763 secs]
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+        at GCLogAnalysis.generateGarbage(GCLogAnalysis.java:48)
+        at GCLogAnalysis.main(GCLogAnalysis.java:25)
+
+minor gc -> 5ms ~ 10ms
+full  gc -> 15ms 左右
+串行gc，后期gc速度明显跟不上用户线程产生对象速度,导致用户线程阻塞.
+```
+### 并行
+```
+$>java -XX:+UseSerialGC -Xms216m -Xmx216m  -XX:+PrintGC   -XX:+PrintGC -XX:+PrintGCDateStamps GCLogAnalysis
+```
+```
+2020-10-25T00:08:06.000+0800: [GC (Allocation Failure)  55296K->22785K(211968K), 0.0036152 secs]
+2020-10-25T00:08:06.014+0800: [GC (Allocation Failure)  78081K->40000K(211968K), 0.0048625 secs]
+2020-10-25T00:08:06.025+0800: [GC (Allocation Failure)  95101K->60152K(211968K), 0.0043766 secs]
+2020-10-25T00:08:06.037+0800: [GC (Allocation Failure)  115448K->78487K(211968K), 0.0038840 secs]
+2020-10-25T00:08:06.049+0800: [GC (Allocation Failure)  133783K->99788K(211968K), 0.0050129 secs]
+2020-10-25T00:08:06.060+0800: [GC (Allocation Failure)  155084K->121913K(181248K), 0.0047463 secs]
+2020-10-25T00:08:06.068+0800: [GC (Allocation Failure)  146489K->131757K(196608K), 0.0022139 secs]
+2020-10-25T00:08:06.073+0800: [GC (Allocation Failure)  156041K->139707K(196608K), 0.0034255 secs]
+2020-10-25T00:08:06.079+0800: [GC (Allocation Failure)  163819K->145463K(196608K), 0.0040564 secs]
+2020-10-25T00:08:06.084+0800: [Full GC (Ergonomics)  145463K->124987K(196608K), 0.0157796 secs]
+2020-10-25T00:08:06.102+0800: [Full GC (Ergonomics)  149563K->127934K(196608K), 0.0116949 secs]
+2020-10-25T00:08:06.119+0800: [Full GC (Ergonomics)  152438K->132318K(196608K), 0.0157016 secs]
+2020-10-25T00:08:06.138+0800: [Full GC (Ergonomics)  156475K->136047K(196608K), 0.0144535 secs]
+2020-10-25T00:08:06.156+0800: [Full GC (Ergonomics)  160438K->140657K(196608K), 0.0157869 secs]
+2020-10-25T00:08:06.175+0800: [Full GC (Ergonomics)  165233K->144524K(196608K), 0.0159737 secs]
+2020-10-25T00:08:06.193+0800: [Full GC (Ergonomics)  168982K->154467K(196608K), 0.0161559 secs]
+2020-10-25T00:08:06.212+0800: [Full GC (Ergonomics)  171570K->157313K(196608K), 0.0151762 secs]
+2020-10-25T00:08:06.229+0800: [Full GC (Ergonomics)  171336K->160582K(196608K), 0.0149120 secs]
+2020-10-25T00:08:06.245+0800: [Full GC (Ergonomics)  171323K->163002K(196608K), 0.0158049 secs]
+2020-10-25T00:08:06.262+0800: [Full GC (Ergonomics)  171337K->164413K(196608K), 0.0156815 secs]
+2020-10-25T00:08:06.279+0800: [Full GC (Ergonomics)  171472K->165416K(196608K), 0.0166524 secs]
+2020-10-25T00:08:06.297+0800: [Full GC (Ergonomics)  171521K->167226K(196608K), 0.0164516 secs]
+2020-10-25T00:08:06.314+0800: [Full GC (Ergonomics)  171566K->168649K(196608K), 0.0100798 secs]
+2020-10-25T00:08:06.325+0800: [Full GC (Ergonomics)  171823K->169522K(196608K), 0.0095970 secs]
+2020-10-25T00:08:06.335+0800: [Full GC (Ergonomics)  171615K->169589K(196608K), 0.0122420 secs]
+2020-10-25T00:08:06.347+0800: [Full GC (Ergonomics)  171470K->169530K(196608K), 0.0183759 secs]
+2020-10-25T00:08:06.367+0800: [Full GC (Ergonomics)  171533K->170427K(196608K), 0.0016723 secs]
+2020-10-25T00:08:06.369+0800: [Full GC (Ergonomics)  171587K->170202K(196608K), 0.0093981 secs]
+2020-10-25T00:08:06.379+0800: [Full GC (Ergonomics)  171941K->170656K(196608K), 0.0081844 secs]
+2020-10-25T00:08:06.387+0800: [Full GC (Ergonomics)  171793K->171410K(196608K), 0.0019884 secs]
+2020-10-25T00:08:06.389+0800: [Full GC (Ergonomics)  171757K->171559K(196608K), 0.0023993 secs]
+2020-10-25T00:08:06.392+0800: [Full GC (Ergonomics)  171645K->171559K(196608K), 0.0017134 secs]
+2020-10-25T00:08:06.394+0800: [Full GC (Allocation Failure)  171559K->171540K(196608K), 0.0146425 secs]
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+        at GCLogAnalysis.generateGarbage(GCLogAnalysis.java:48)
+        at GCLogAnalysis.main(GCLogAnalysis.java:25)
+
+minor gc  0 - 5 ms
+full gc  0 - 15 ms
+并行gc比串行gc效果好一点，但是gc速度还是跟不上用户线程生产对象速度,并且gc时候会完全阻塞住用户线程.
+```
+### 并发 - cms
+```
+java -XX:+UseConcMarkSweepGC -Xms216m -Xmx216m  -XX:+PrintGC   -XX:+PrintGC -XX:+PrintGCDateStamps GCLogAnalysis
+...
+....
+2020-10-25T00:12:03.951+0800: [GC (Allocation Failure)  58655K->23044K(213824K), 0.0040934 secs]
+2020-10-25T00:12:03.965+0800: [GC (Allocation Failure)  82052K->40316K(213824K), 0.0049398 secs]
+2020-10-25T00:12:03.977+0800: [GC (Allocation Failure)  98936K->57809K(213824K), 0.0065599 secs]
+2020-10-25T00:12:03.991+0800: [GC (Allocation Failure)  116643K->76171K(213824K), 0.0072411 secs]
+2020-10-25T00:12:04.006+0800: [GC (Allocation Failure)  135179K->91594K(213824K), 0.0057945 secs]
+2020-10-25T00:12:04.012+0800: [GC (CMS Initial Mark)  92930K(213824K), 0.0009194 secs]
+2020-10-25T00:12:04.019+0800: [GC (Allocation Failure)  150487K->112708K(213824K), 0.0085879 secs]
+2020-10-25T00:12:04.035+0800: [GC (Allocation Failure)  171324K->132024K(213824K), 0.0077088 secs]
+2020-10-25T00:12:04.049+0800: [GC (Allocation Failure)  191032K->149742K(213824K), 0.0076513 secs]
+2020-10-25T00:12:04.057+0800: [GC (CMS Final Remark)  151296K(213824K), 0.0013091 secs]
+2020-10-25T00:12:04.065+0800: [Full GC (Allocation Failure)  201644K->141232K(213824K), 0.0178588 secs]
+2020-10-25T00:12:04.084+0800: [GC (CMS Initial Mark)  144054K(213824K), 0.0008811 secs]
+2020-10-25T00:12:04.086+0800: [GC (CMS Final Remark)  151531K(213824K), 0.0011025 secs]
+2020-10-25T00:12:04.093+0800: [Full GC (Allocation Failure)  199441K->152545K(213824K), 0.0178374 secs]
+2020-10-25T00:12:04.111+0800: [GC (CMS Initial Mark)  154313K(213824K), 0.0006824 secs]
+2020-10-25T00:12:04.113+0800: [GC (CMS Final Remark)  165591K(213824K), 0.0009461 secs]
+2020-10-25T00:12:04.121+0800: [Full GC (Allocation Failure)  213588K->164599K(213824K), 0.0175488 secs]
+2020-10-25T00:12:04.139+0800: [GC (CMS Initial Mark)  164675K(213824K), 0.0005985 secs]
+2020-10-25T00:12:04.141+0800: [GC (CMS Final Remark)  178238K(213824K), 0.0011007 secs]
+2020-10-25T00:12:04.147+0800: [Full GC (Allocation Failure)  213659K->175234K(213824K), 0.0205957 secs]
+2020-10-25T00:12:04.167+0800: [GC (CMS Initial Mark)  176426K(213824K), 0.0008355 secs]
+2020-10-25T00:12:04.170+0800: [GC (CMS Final Remark)  190132K(213824K), 0.0012555 secs]
+2020-10-25T00:12:04.174+0800: [Full GC (Allocation Failure)  213531K->184863K(213824K), 0.0205502 secs]
+2020-10-25T00:12:04.195+0800: [GC (CMS Initial Mark)  186074K(213824K), 0.0013295 secs]
+2020-10-25T00:12:04.198+0800: [GC (CMS Final Remark)  193857K(213824K), 0.0008778 secs]
+2020-10-25T00:12:04.202+0800: [Full GC (Allocation Failure)  213178K->191354K(213824K), 0.0222176 secs]
+2020-10-25T00:12:04.224+0800: [GC (CMS Initial Mark)  191988K(213824K), 0.0012907 secs]
+2020-10-25T00:12:04.227+0800: [GC (CMS Final Remark)  203414K(213824K), 0.0019067 secs]
+2020-10-25T00:12:04.231+0800: [Full GC (Allocation Failure)  213626K->195169K(213824K), 0.0216974 secs]
+2020-10-25T00:12:04.253+0800: [GC (CMS Initial Mark)  195925K(213824K), 0.0006231 secs]
+2020-10-25T00:12:04.256+0800: [GC (CMS Final Remark)  208437K(213824K), 0.0010499 secs]
+2020-10-25T00:12:04.257+0800: [Full GC (Allocation Failure)  213608K->197155K(213824K), 0.0219675 secs]
+2020-10-25T00:12:04.280+0800: [GC (CMS Initial Mark)  197545K(213824K), 0.0008487 secs]
+2020-10-25T00:12:04.282+0800: [GC (CMS Final Remark)  206958K(213824K), 0.0008856 secs]
+2020-10-25T00:12:04.284+0800: [Full GC (Allocation Failure)  213667K->200424K(213824K), 0.0201298 secs]
+2020-10-25T00:12:04.305+0800: [GC (CMS Initial Mark)  200779K(213824K), 0.0008748 secs]
+2020-10-25T00:12:04.307+0800: [GC (CMS Final Remark)  211099K(213824K), 0.0009926 secs]
+2020-10-25T00:12:04.309+0800: [Full GC (Allocation Failure)  213531K->200829K(213824K), 0.0213586 secs]
+2020-10-25T00:12:04.333+0800: [Full GC (Allocation Failure)  213468K->201689K(213824K), 0.0208544 secs]
+2020-10-25T00:12:04.354+0800: [GC (CMS Initial Mark)  201833K(213824K), 0.0009314 secs]
+2020-10-25T00:12:04.357+0800: [GC (CMS Final Remark)  212170K(213824K), 0.0010465 secs]
+2020-10-25T00:12:04.359+0800: [Full GC (Allocation Failure)  213294K->201329K(213824K), 0.0232083 secs]
+2020-10-25T00:12:04.384+0800: [Full GC (Allocation Failure)  213778K->202305K(213824K), 0.0232593 secs]
+2020-10-25T00:12:04.408+0800: [GC (CMS Initial Mark)  202341K(213824K), 0.0005698 secs]
+2020-10-25T00:12:04.410+0800: [GC (CMS Final Remark)  210624K(213824K), 0.0008314 secs]
+2020-10-25T00:12:04.411+0800: [Full GC (Allocation Failure)  213220K->203458K(213824K), 0.0215741 secs]
+2020-10-25T00:12:04.433+0800: [GC (CMS Initial Mark)  204739K(213824K), 0.0012477 secs]
+2020-10-25T00:12:04.436+0800: [GC (CMS Final Remark)  212910K(213824K), 0.0027652 secs]
+2020-10-25T00:12:04.440+0800: [Full GC (Allocation Failure)  213380K->205281K(213824K), 0.0149385 secs]
+2020-10-25T00:12:04.457+0800: [Full GC (Allocation Failure)  213610K->207022K(213824K), 0.0185836 secs]
+2020-10-25T00:12:04.476+0800: [GC (CMS Initial Mark)  208255K(213824K), 0.0013023 secs]
+2020-10-25T00:12:04.479+0800: [Full GC (Allocation Failure)  213717K->208881K(213824K), 0.0197602 secs]
+2020-10-25T00:12:04.500+0800: [Full GC (Allocation Failure)  213492K->210091K(213824K), 0.0211092 secs]
+2020-10-25T00:12:04.521+0800: [GC (CMS Initial Mark)  210533K(213824K), 0.0010488 secs]
+2020-10-25T00:12:04.525+0800: [Full GC (Allocation Failure)  213602K->210582K(213824K), 0.0199379 secs]
+2020-10-25T00:12:04.545+0800: [Full GC (Allocation Failure)  213687K->210232K(213824K), 0.0117165 secs]
+2020-10-25T00:12:04.557+0800: [GC (CMS Initial Mark)  210409K(213824K), 0.0006072 secs]
+2020-10-25T00:12:04.560+0800: [Full GC (Allocation Failure)  213758K->209592K(213824K), 0.0190633 secs]
+2020-10-25T00:12:04.580+0800: [Full GC (Allocation Failure)  213793K->211054K(213824K), 0.0178069 secs]
+2020-10-25T00:12:04.599+0800: [GC (CMS Initial Mark)  211192K(213824K), 0.0005424 secs]
+2020-10-25T00:12:04.602+0800: [Full GC (Allocation Failure)  213360K->210940K(213824K), 0.0234469 secs]
+2020-10-25T00:12:04.626+0800: [Full GC (Allocation Failure)  213713K->211206K(213824K), 0.0208891 secs]
+2020-10-25T00:12:04.648+0800: [GC (CMS Initial Mark)  211483K(213824K), 0.0004880 secs]
+2020-10-25T00:12:04.651+0800: [Full GC (Allocation Failure)  213498K->212149K(213824K), 0.0021211 secs]
+2020-10-25T00:12:04.654+0800: [Full GC (Allocation Failure)  213513K->212607K(213824K), 0.0074070 secs]
+2020-10-25T00:12:04.661+0800: [GC (CMS Initial Mark)  212758K(213824K), 0.0004372 secs]
+2020-10-25T00:12:04.664+0800: [Full GC (Allocation Failure)  212758K->212319K(213824K), 0.0021125 secs]
+2020-10-25T00:12:04.667+0800: [Full GC (Allocation Failure)  213386K->212567K(213824K), 0.0020516 secs]
+2020-10-25T00:12:04.669+0800: [GC (CMS Initial Mark)  212955K(213824K), 0.0016978 secs]
+2020-10-25T00:12:04.673+0800: [Full GC (Allocation Failure)  213706K->212955K(213824K), 0.0021250 secs]
+2020-10-25T00:12:04.676+0800: [Full GC (Allocation Failure)  213729K->213446K(213824K), 0.0057286 secs]
+2020-10-25T00:12:04.682+0800: [Full GC (Allocation Failure)  213446K->213427K(213824K), 0.0158458 secs]
+2020-10-25T00:12:04.698+0800: [GC (CMS Initial Mark)  213427K(213824K), 0.0005643 secs]
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+        at java.util.Arrays.copyOf(Unknown Source)
+        at java.lang.AbstractStringBuilder.ensureCapacityInternal(Unknown Source)2020-10-25T00:12:04.700+0800: [GC (CMS Final Remark)  213453K(213824K), 0.0011853 secs]
+
+        at java.lang.AbstractStringBuilder.append(Unknown Source)
+        at java.lang.StringBuilder.append(Unknown Source)
+        at GCLogAnalysis.generateGarbage(GCLogAnalysis.java:56)
+        at GCLogAnalysis.main(GCLogAnalysis.java:25)
+
+cms 相对于 并行gc gc时间更短，gc更加频繁
+```
+### G1
+```
+java -XX:+UseG1GC -Xms216m -Xmx216m  -XX:+PrintGCDetails -XX:+PrintGCDateStamps GCLogAnalysis
+```
+```
+2020-10-25T00:15:04.672+0800: [GC pause (G1 Evacuation Pause) (young) 31M->10M(216M), 0.0022271 secs]
+2020-10-25T00:15:04.679+0800: [GC pause (G1 Evacuation Pause) (young) 39M->23M(216M), 0.0026032 secs]
+2020-10-25T00:15:04.694+0800: [GC pause (G1 Evacuation Pause) (young) 70M->40M(216M), 0.0032716 secs]
+2020-10-25T00:15:04.713+0800: [GC pause (G1 Evacuation Pause) (young) 112M->63M(216M), 0.0034520 secs]
+2020-10-25T00:15:04.732+0800: [GC pause (G1 Evacuation Pause) (young) 157M->96M(216M), 0.0053596 secs]
+2020-10-25T00:15:04.738+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark) 97M->97M(216M), 0.0022631 secs]
+2020-10-25T00:15:04.741+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.741+0800: [GC concurrent-root-region-scan-end, 0.0004334 secs]
+2020-10-25T00:15:04.741+0800: [GC concurrent-mark-start]
+2020-10-25T00:15:04.744+0800: [GC concurrent-mark-end, 0.0025191 secs]
+2020-10-25T00:15:04.744+0800: [GC remark, 0.0030090 secs]
+2020-10-25T00:15:04.747+0800: [GC cleanup 117M->117M(216M), 0.0004815 secs]
+2020-10-25T00:15:04.754+0800: [GC pause (G1 Evacuation Pause) (young) 169M->120M(216M), 0.0026050 secs]
+2020-10-25T00:15:04.757+0800: [GC pause (G1 Evacuation Pause) (mixed) 125M->121M(216M), 0.0026636 secs]
+2020-10-25T00:15:04.760+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark) 122M->121M(216M), 0.0007151 secs]
+2020-10-25T00:15:04.761+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.762+0800: [GC concurrent-root-region-scan-end, 0.0005631 secs]
+2020-10-25T00:15:04.764+0800: [GC concurrent-mark-start]
+2020-10-25T00:15:04.765+0800: [GC concurrent-mark-end, 0.0010781 secs]
+2020-10-25T00:15:04.766+0800: [GC remark, 0.0008215 secs]
+2020-10-25T00:15:04.767+0800: [GC cleanup 161M->161M(216M), 0.0005058 secs]
+2020-10-25T00:15:04.769+0800: [GC pause (G1 Evacuation Pause) (young) 173M->137M(216M), 0.0021345 secs]
+2020-10-25T00:15:04.772+0800: [GC pause (G1 Evacuation Pause) (mixed) 142M->133M(216M), 0.0020630 secs]
+2020-10-25T00:15:04.775+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark) 138M->134M(216M), 0.0007956 secs]
+2020-10-25T00:15:04.776+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.777+0800: [GC concurrent-root-region-scan-end, 0.0006305 secs]
+2020-10-25T00:15:04.777+0800: [GC concurrent-mark-start]
+2020-10-25T00:15:04.778+0800: [GC concurrent-mark-end, 0.0009753 secs]
+2020-10-25T00:15:04.778+0800: [GC remark, 0.0007920 secs]
+2020-10-25T00:15:04.779+0800: [GC cleanup 150M->150M(216M), 0.0011858 secs]
+2020-10-25T00:15:04.783+0800: [GC pause (G1 Evacuation Pause) (young) 170M->144M(216M), 0.0016342 secs]
+2020-10-25T00:15:04.785+0800: [GC pause (G1 Evacuation Pause) (mixed) 152M->143M(216M), 0.0015500 secs]
+2020-10-25T00:15:04.787+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark) 145M->144M(216M), 0.0006810 secs]
+2020-10-25T00:15:04.788+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.790+0800: [GC concurrent-root-region-scan-end, 0.0021018 secs]
+2020-10-25T00:15:04.791+0800: [GC concurrent-mark-start]
+2020-10-25T00:15:04.794+0800: [GC pause (G1 Evacuation Pause) (young) 172M->152M(216M), 0.0027172 secs]
+2020-10-25T00:15:04.796+0800: [GC concurrent-mark-end, 0.0051626 secs]
+2020-10-25T00:15:04.796+0800: [GC remark, 0.0008466 secs]
+2020-10-25T00:15:04.797+0800: [GC cleanup 160M->160M(216M), 0.0005097 secs]
+2020-10-25T00:15:04.799+0800: [GC pause (G1 Evacuation Pause) (young) 170M->159M(216M), 0.0017813 secs]
+2020-10-25T00:15:04.802+0800: [GC pause (G1 Evacuation Pause) (mixed) 170M->157M(216M), 0.0021614 secs]
+2020-10-25T00:15:04.805+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark) 164M->159M(216M), 0.0008136 secs]
+2020-10-25T00:15:04.806+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.807+0800: [GC concurrent-root-region-scan-end, 0.0007553 secs]
+2020-10-25T00:15:04.807+0800: [GC concurrent-mark-start]
+2020-10-25T00:15:04.807+0800: [GC pause (G1 Evacuation Pause) (young) 170M->162M(216M), 0.0020423 secs]
+2020-10-25T00:15:04.810+0800: [GC concurrent-mark-end, 0.0032011 secs]
+2020-10-25T00:15:04.810+0800: [GC remark, 0.0030087 secs]
+2020-10-25T00:15:04.814+0800: [GC cleanup 170M->169M(216M), 0.0005416 secs]
+2020-10-25T00:15:04.814+0800: [GC concurrent-cleanup-start]
+2020-10-25T00:15:04.814+0800: [GC concurrent-cleanup-end, 0.0002950 secs]
+2020-10-25T00:15:04.815+0800: [GC pause (G1 Evacuation Pause) (young) 172M->166M(216M), 0.0012299 secs]
+2020-10-25T00:15:04.817+0800: [GC pause (G1 Evacuation Pause) (young) 178M->168M(216M), 0.0008890 secs]
+2020-10-25T00:15:04.820+0800: [GC pause (G1 Evacuation Pause) (mixed)-- 180M->178M(216M), 0.0014586 secs]
+2020-10-25T00:15:04.822+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark) 181M->179M(216M), 0.0007520 secs]
+2020-10-25T00:15:04.823+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.824+0800: [GC concurrent-root-region-scan-end, 0.0008019 secs]
+2020-10-25T00:15:04.824+0800: [GC concurrent-mark-start]
+2020-10-25T00:15:04.824+0800: [GC pause (G1 Humongous Allocation) (young)-- 186M->185M(216M), 0.0018801 secs]
+2020-10-25T00:15:04.826+0800: [GC pause (G1 Evacuation Pause) (young)-- 186M->185M(216M), 0.0006053 secs]
+2020-10-25T00:15:04.827+0800: [GC pause (G1 Evacuation Pause) (young)-- 186M->186M(216M), 0.0004132 secs]
+2020-10-25T00:15:04.829+0800: [Full GC (Allocation Failure)  186M->149M(216M), 0.0154626 secs]
+2020-10-25T00:15:04.844+0800: [GC concurrent-mark-abort]
+2020-10-25T00:15:04.845+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark) 154M->151M(216M), 0.0006482 secs]
+2020-10-25T00:15:04.846+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.847+0800: [GC concurrent-root-region-scan-end, 0.0005423 secs]
+2020-10-25T00:15:04.849+0800: [GC pause (G1 Evacuation Pause) (young)2020-10-25T00:15:04.849+0800: [GC concurrent-mark-start]
+ 163M->156M(216M), 0.0031107 secs]
+2020-10-25T00:15:04.851+0800: [GC concurrent-mark-end, 0.0021113 secs]
+2020-10-25T00:15:04.852+0800: [GC remark, 0.0009173 secs]
+2020-10-25T00:15:04.853+0800: [GC cleanup 163M->163M(216M), 0.0005549 secs]
+2020-10-25T00:15:04.854+0800: [GC pause (G1 Evacuation Pause) (young)-- 166M->163M(216M), 0.0008440 secs]
+2020-10-25T00:15:04.855+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark) 165M->163M(216M), 0.0018047 secs]
+2020-10-25T00:15:04.857+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.858+0800: [GC pause (G1 Evacuation Pause) (young)2020-10-25T00:15:04.860+0800: [GC concurrent-root-region-scan-end, 0.0013918 secs]
+2020-10-25T00:15:04.860+0800: [GC concurrent-mark-start]
+-- 170M->168M(216M), 0.0028804 secs]
+2020-10-25T00:15:04.861+0800: [GC pause (G1 Humongous Allocation) (young)-- 170M->169M(216M), 0.0005013 secs]
+2020-10-25T00:15:04.862+0800: [GC pause (G1 Evacuation Pause) (young) 171M->169M(216M), 0.0004081 secs]
+2020-10-25T00:15:04.863+0800: [GC concurrent-mark-end, 0.0024168 secs]
+2020-10-25T00:15:04.863+0800: [GC pause (G1 Evacuation Pause) (young)-- 171M->171M(216M), 0.0008643 secs]
+2020-10-25T00:15:04.864+0800: [Full GC (Allocation Failure)  171M->155M(216M), 0.0148232 secs]
+2020-10-25T00:15:04.879+0800: [GC remark, 0.0004048 secs]
+2020-10-25T00:15:04.879+0800: [GC concurrent-mark-abort]
+2020-10-25T00:15:04.880+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark) 161M->158M(216M), 0.0007706 secs]
+2020-10-25T00:15:04.881+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.881+0800: [GC concurrent-root-region-scan-end, 0.0003769 secs]
+2020-10-25T00:15:04.882+0800: [GC concurrent-mark-start]
+2020-10-25T00:15:04.882+0800: [GC pause (G1 Humongous Allocation) (young)-- 169M->167M(216M), 0.0010725 secs]
+2020-10-25T00:15:04.884+0800: [GC pause (G1 Evacuation Pause) (young)-- 170M->170M(216M), 0.0005531 secs]
+2020-10-25T00:15:04.885+0800: [Full GC (Allocation Failure)  170M->161M(216M), 0.0110751 secs]
+2020-10-25T00:15:04.896+0800: [GC concurrent-mark-abort]
+2020-10-25T00:15:04.896+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark)-- 167M->165M(216M), 0.0011871 secs]
+2020-10-25T00:15:04.898+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.899+0800: [GC concurrent-root-region-scan-end, 0.0005776 secs]
+2020-10-25T00:15:04.901+0800: [GC pause (G1 Evacuation Pause) (young)2020-10-25T00:15:04.901+0800: [GC concurrent-mark-start]
+-- 169M->169M(216M), 0.0034462 secs]
+2020-10-25T00:15:04.903+0800: [GC pause (G1 Evacuation Pause) (young)-- 170M->170M(216M), 0.0005286 secs]
+2020-10-25T00:15:04.904+0800: [Full GC (Allocation Failure)  170M->165M(216M), 0.0079001 secs]
+2020-10-25T00:15:04.912+0800: [GC concurrent-mark-abort]
+2020-10-25T00:15:04.912+0800: [GC pause (G1 Evacuation Pause) (young)-- 168M->167M(216M), 0.0029003 secs]
+2020-10-25T00:15:04.914+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark) 168M->167M(216M), 0.0004952 secs]
+2020-10-25T00:15:04.915+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.915+0800: [GC pause (G1 Evacuation Pause) (young)2020-10-25T00:15:04.916+0800: [GC concurrent-root-region-scan-end, 0.0003873 secs]
+2020-10-25T00:15:04.916+0800: [GC concurrent-mark-start]
+-- 168M->167M(216M), 0.0012738 secs]
+2020-10-25T00:15:04.918+0800: [GC pause (G1 Evacuation Pause) (young)-- 168M->168M(216M), 0.0007114 secs]
+2020-10-25T00:15:04.919+0800: [Full GC (Allocation Failure)  168M->165M(216M), 0.0043832 secs]
+2020-10-25T00:15:04.923+0800: [GC concurrent-mark-abort]
+2020-10-25T00:15:04.924+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark)-- 167M->167M(216M), 0.0007623 secs]
+2020-10-25T00:15:04.925+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.925+0800: [GC concurrent-root-region-scan-end, 0.0004573 secs]
+2020-10-25T00:15:04.926+0800: [GC concurrent-mark-start]
+2020-10-25T00:15:04.926+0800: [GC pause (G1 Humongous Allocation) (young) 167M->167M(216M), 0.0019369 secs]
+2020-10-25T00:15:04.928+0800: [Full GC (Allocation Failure)  167M->166M(216M), 0.0024975 secs]
+2020-10-25T00:15:04.930+0800: [GC concurrent-mark-abort]
+2020-10-25T00:15:04.931+0800: [GC pause (G1 Evacuation Pause) (young)-- 167M->167M(216M), 0.0012102 secs]
+2020-10-25T00:15:04.932+0800: [GC pause (G1 Evacuation Pause) (young)-- 168M->168M(216M), 0.0004897 secs]
+2020-10-25T00:15:04.932+0800: [Full GC (Allocation Failure)  168M->166M(216M), 0.0018829 secs]
+2020-10-25T00:15:04.935+0800: [GC pause (G1 Evacuation Pause) (young)-- 167M->167M(216M), 0.0005764 secs]
+2020-10-25T00:15:04.935+0800: [Full GC (Allocation Failure)  167M->166M(216M), 0.0027985 secs]
+2020-10-25T00:15:04.938+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark)-- 167M->166M(216M), 0.0035331 secs]
+2020-10-25T00:15:04.942+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:04.943+0800: 2020-10-25T00:15:04.943+0800: [GC concurrent-root-region-scan-end, 0.0004385 secs]
+2020-10-25T00:15:04.944+0800: [GC concurrent-mark-start]
+[GC pause (G1 Evacuation Pause) (young) 167M->166M(216M), 0.0028166 secs]
+2020-10-25T00:15:04.946+0800: [GC pause (G1 Evacuation Pause) (young) 167M->166M(216M), 0.0005943 secs]
+2020-10-25T00:15:04.947+0800: [GC pause (G1 Evacuation Pause) (young)-- 167M->167M(216M), 0.0021455 secs]
+2020-10-25T00:15:04.949+0800: [Full GC (Allocation Failure)  167M->166M(216M), 0.0111087 secs]
+2020-10-25T00:15:04.960+0800: [GC concurrent-mark-abort]
+2020-10-25T00:15:04.961+0800: [GC pause (G1 Evacuation Pause) (young)-- 168M->168M(216M), 0.0009258 secs]
+2020-10-25T00:15:04.962+0800: [Full GC (Allocation Failure)  168M->166M(216M), 0.0026481 secs]
+2020-10-25T00:15:04.965+0800: [GC pause (G1 Evacuation Pause) (young)-- 167M->167M(216M), 0.0006849 secs]
+2020-10-25T00:15:04.965+0800: [Full GC (Allocation Failure)  167M->166M(216M), 0.0092452 secs]
+2020-10-25T00:15:04.975+0800: [GC pause (G1 Evacuation Pause) (young)-- 168M->168M(216M), 0.0007299 secs]
+2020-10-25T00:15:04.976+0800: [Full GC (Allocation Failure)  168M->166M(216M), 0.0115457 secs]
+2020-10-25T00:15:04.988+0800: [GC pause (G1 Evacuation Pause) (young)-- 168M->168M(216M), 0.0007041 secs]
+2020-10-25T00:15:04.989+0800: [Full GC (Allocation Failure)  168M->167M(216M), 0.0160379 secs]
+2020-10-25T00:15:05.006+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark)-- 168M->168M(216M), 0.0030580 secs]
+2020-10-25T00:15:05.009+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:05.009+0800: 2020-10-25T00:15:05.009+0800: [GC concurrent-root-region-scan-end, 0.0004527 secs]
+[GC pause (G1 Evacuation Pause) (young)2020-10-25T00:15:05.010+0800: [GC concurrent-mark-start]
+ 168M->168M(216M), 0.0017374 secs]
+2020-10-25T00:15:05.012+0800: [GC pause (G1 Humongous Allocation) (young) 168M->168M(216M), 0.0006759 secs]
+2020-10-25T00:15:05.013+0800: [GC pause (G1 Evacuation Pause) (young) 168M->168M(216M), 0.0023949 secs]
+2020-10-25T00:15:05.015+0800: [GC pause (G1 Evacuation Pause) (young) 168M->168M(216M), 0.0007600 secs]
+2020-10-25T00:15:05.016+0800: [Full GC (Allocation Failure)  168M->167M(216M), 0.0033828 secs]
+2020-10-25T00:15:05.020+0800: [GC concurrent-mark-abort]
+2020-10-25T00:15:05.020+0800: [GC pause (G1 Evacuation Pause) (young)-- 169M->169M(216M), 0.0020084 secs]
+2020-10-25T00:15:05.022+0800: [Full GC (Allocation Failure)  169M->167M(216M), 0.0043579 secs]
+2020-10-25T00:15:05.027+0800: [GC pause (G1 Evacuation Pause) (young)-- 169M->169M(216M), 0.0005907 secs]
+2020-10-25T00:15:05.028+0800: [Full GC (Allocation Failure)  169M->168M(216M), 0.0027108 secs]
+2020-10-25T00:15:05.031+0800: [GC pause (G1 Evacuation Pause) (young)-- 169M->169M(216M), 0.0007176 secs]
+2020-10-25T00:15:05.032+0800: [Full GC (Allocation Failure)  169M->168M(216M), 0.0037831 secs]
+2020-10-25T00:15:05.036+0800: [GC pause (G1 Humongous Allocation) (young) (initial-mark)-- 168M->168M(216M), 0.0006665 secs]
+2020-10-25T00:15:05.036+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:05.037+0800: 2020-10-25T00:15:05.037+0800: [GC concurrent-root-region-scan-end, 0.0002799 secs]
+[GC pause (G1 Humongous Allocation) (young)2020-10-25T00:15:05.037+0800: [GC concurrent-mark-start]
+ 168M->168M(216M), 0.0014770 secs]
+2020-10-25T00:15:05.038+0800: [Full GC (Allocation Failure)  168M->168M(216M), 0.0025857 secs]
+2020-10-25T00:15:05.041+0800: [GC concurrent-mark-abort]
+2020-10-25T00:15:05.041+0800: [GC pause (G1 Humongous Allocation) (young) 168M->168M(216M), 0.0037678 secs]
+2020-10-25T00:15:05.045+0800: [Full GC (Allocation Failure)  168M->168M(216M), 0.0022785 secs]
+2020-10-25T00:15:05.047+0800: [Full GC (Allocation Failure)  168M->168M(216M), 0.0023223 secs]
+2020-10-25T00:15:05.050+0800: [GC pause (G1 Evacuation Pause) (young) 168M->168M(216M), 0.0007491 secs]
+2020-10-25T00:15:05.050+0800: [GC pause (G1 Evacuation Pause) (young) (initial-mark) 168M->168M(216M), 0.0025384 secs]
+2020-10-25T00:15:05.053+0800: [GC concurrent-root-region-scan-start]
+2020-10-25T00:15:05.053+0800: 2020-10-25T00:15:05.053+0800: [Full GC (Allocation Failure) [GC concurrent-root-region-scan-end, 0.0002931 secs]
+2020-10-25T00:15:05.054+0800: [GC concurrent-mark-start]
+ 168M->620K(216M), 0.0028000 secs]
+2020-10-25T00:15:05.056+0800Exception in thread "main" : [GC concurrent-mark-abort]
+java.lang.OutOfMemoryError: Java heap space
+        at GCLogAnalysis.generateGarbage(GCLogAnalysis.java:48)
+        at GCLogAnalysis.main(GCLogAnalysis.java:25)
+
+G1 GC 的young 区不断变大,大部分都是minor gc，有少量的mixed GC,极小的full gc.
+G1 young gc 非常的频繁.
+```
+## 第2题 使用压测工具（wrk或sb），演练gateway-server-0.0.1-SNAPSHOT.jar 示例。
+```
+sb.exe -u http://localhost:8088/api/hello -c 20 -N 60
+```
+```
+Starting at 2020/10/25 0:46:12
+[Press C to stop the test]
+301425  (RPS: 4732.9)
+---------------Finished!----------------
+Finished at 2020/10/25 0:47:16 (took 00:01:03.7895165)
+Status 200:    301426
+
+RPS: 4933.8 (requests/second)
+Max: 201ms
+Min: 0ms
+Avg: 0.1ms
+
+  50%   below 0ms
+  60%   below 0ms
+  70%   below 0ms
+  80%   below 0ms
+  90%   below 0ms
+  95%   below 0ms
+  98%   below 2ms
+  99%   below 4ms
+99.9%   below 11ms
+```
