@@ -2,6 +2,11 @@
 ### 串行
 ```
 $>java -XX:+UseSerialGC -Xms216m -Xmx216m  -XX:+PrintGC GCLogAnalysis
+serialgc -> 执行时间最长，执行频率最小,吞吐量最高.
+young 总大小-> 66M
+old 总大小-> 147M
+young gc触发 年轻代->   87%~
+full  gc触发 堆大小->   94% ~
 ```
 ```
 2020-10-25T00:02:35.162+0800: [GC (Allocation Failure)  58917K->21050K(213824K), 0.0084469 secs]
@@ -54,61 +59,71 @@ $>java -XX:+UseSerialGC -Xms216m -Xmx216m  -XX:+PrintGC GCLogAnalysis
 Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
         at GCLogAnalysis.generateGarbage(GCLogAnalysis.java:48)
         at GCLogAnalysis.main(GCLogAnalysis.java:25)
-
-minor gc -> 5ms ~ 10ms
-full  gc -> 15ms 左右
-串行gc，后期gc速度明显跟不上用户线程产生对象速度,导致用户线程阻塞.
 ```
 ### 并行
 ```
-$>java -XX:+UseSerialGC -Xms216m -Xmx216m  -XX:+PrintGC   -XX:+PrintGC -XX:+PrintGCDateStamps GCLogAnalysis
+$>java   -Xms216m -Xmx216m  -XX:+PrintGC   -XX:+PrintGC -XX:+PrintGCDateStamps GCLogAnalysis
+并行gc相对 serial gc 停顿时间大幅度减少。 执行频率相对增加。
+young总大小  ->  65M ~ 49M
+old总大小    ->  148M
+heap        ->  212M ~196M
+young gc 年轻代比例  -> 85%
+full gc 堆比列 -> 75%
 ```
 ```
-2020-10-25T00:08:06.000+0800: [GC (Allocation Failure)  55296K->22785K(211968K), 0.0036152 secs]
-2020-10-25T00:08:06.014+0800: [GC (Allocation Failure)  78081K->40000K(211968K), 0.0048625 secs]
-2020-10-25T00:08:06.025+0800: [GC (Allocation Failure)  95101K->60152K(211968K), 0.0043766 secs]
-2020-10-25T00:08:06.037+0800: [GC (Allocation Failure)  115448K->78487K(211968K), 0.0038840 secs]
-2020-10-25T00:08:06.049+0800: [GC (Allocation Failure)  133783K->99788K(211968K), 0.0050129 secs]
-2020-10-25T00:08:06.060+0800: [GC (Allocation Failure)  155084K->121913K(181248K), 0.0047463 secs]
-2020-10-25T00:08:06.068+0800: [GC (Allocation Failure)  146489K->131757K(196608K), 0.0022139 secs]
-2020-10-25T00:08:06.073+0800: [GC (Allocation Failure)  156041K->139707K(196608K), 0.0034255 secs]
-2020-10-25T00:08:06.079+0800: [GC (Allocation Failure)  163819K->145463K(196608K), 0.0040564 secs]
-2020-10-25T00:08:06.084+0800: [Full GC (Ergonomics)  145463K->124987K(196608K), 0.0157796 secs]
-2020-10-25T00:08:06.102+0800: [Full GC (Ergonomics)  149563K->127934K(196608K), 0.0116949 secs]
-2020-10-25T00:08:06.119+0800: [Full GC (Ergonomics)  152438K->132318K(196608K), 0.0157016 secs]
-2020-10-25T00:08:06.138+0800: [Full GC (Ergonomics)  156475K->136047K(196608K), 0.0144535 secs]
-2020-10-25T00:08:06.156+0800: [Full GC (Ergonomics)  160438K->140657K(196608K), 0.0157869 secs]
-2020-10-25T00:08:06.175+0800: [Full GC (Ergonomics)  165233K->144524K(196608K), 0.0159737 secs]
-2020-10-25T00:08:06.193+0800: [Full GC (Ergonomics)  168982K->154467K(196608K), 0.0161559 secs]
-2020-10-25T00:08:06.212+0800: [Full GC (Ergonomics)  171570K->157313K(196608K), 0.0151762 secs]
-2020-10-25T00:08:06.229+0800: [Full GC (Ergonomics)  171336K->160582K(196608K), 0.0149120 secs]
-2020-10-25T00:08:06.245+0800: [Full GC (Ergonomics)  171323K->163002K(196608K), 0.0158049 secs]
-2020-10-25T00:08:06.262+0800: [Full GC (Ergonomics)  171337K->164413K(196608K), 0.0156815 secs]
-2020-10-25T00:08:06.279+0800: [Full GC (Ergonomics)  171472K->165416K(196608K), 0.0166524 secs]
-2020-10-25T00:08:06.297+0800: [Full GC (Ergonomics)  171521K->167226K(196608K), 0.0164516 secs]
-2020-10-25T00:08:06.314+0800: [Full GC (Ergonomics)  171566K->168649K(196608K), 0.0100798 secs]
-2020-10-25T00:08:06.325+0800: [Full GC (Ergonomics)  171823K->169522K(196608K), 0.0095970 secs]
-2020-10-25T00:08:06.335+0800: [Full GC (Ergonomics)  171615K->169589K(196608K), 0.0122420 secs]
-2020-10-25T00:08:06.347+0800: [Full GC (Ergonomics)  171470K->169530K(196608K), 0.0183759 secs]
-2020-10-25T00:08:06.367+0800: [Full GC (Ergonomics)  171533K->170427K(196608K), 0.0016723 secs]
-2020-10-25T00:08:06.369+0800: [Full GC (Ergonomics)  171587K->170202K(196608K), 0.0093981 secs]
-2020-10-25T00:08:06.379+0800: [Full GC (Ergonomics)  171941K->170656K(196608K), 0.0081844 secs]
-2020-10-25T00:08:06.387+0800: [Full GC (Ergonomics)  171793K->171410K(196608K), 0.0019884 secs]
-2020-10-25T00:08:06.389+0800: [Full GC (Ergonomics)  171757K->171559K(196608K), 0.0023993 secs]
-2020-10-25T00:08:06.392+0800: [Full GC (Ergonomics)  171645K->171559K(196608K), 0.0017134 secs]
-2020-10-25T00:08:06.394+0800: [Full GC (Allocation Failure)  171559K->171540K(196608K), 0.0146425 secs]
+2020-10-25T22:08:04.394+0800: [GC (Allocation Failure)  55296K->17947K(211968K), 0.0043447 secs]
+2020-10-25T22:08:04.409+0800: [GC (Allocation Failure)  73183K->36748K(211968K), 0.0052374 secs]
+2020-10-25T22:08:04.423+0800: [GC (Allocation Failure)  91279K->54733K(211968K), 0.0045378 secs]
+2020-10-25T22:08:04.433+0800: [GC (Allocation Failure)  110029K->75498K(211968K), 0.0042739 secs]
+2020-10-25T22:08:04.442+0800: [GC (Allocation Failure)  130794K->95296K(211968K), 0.0045513 secs]
+2020-10-25T22:08:04.452+0800: [GC (Allocation Failure)  150592K->112762K(181248K), 0.0044597 secs]
+2020-10-25T22:08:04.459+0800: [GC (Allocation Failure)  136946K->123215K(196608K), 0.0033898 secs]
+2020-10-25T22:08:04.465+0800: [GC (Allocation Failure)  147789K->131687K(196608K), 0.0036082 secs]
+2020-10-25T22:08:04.472+0800: [GC (Allocation Failure)  156263K->139118K(196608K), 0.0042203 secs]
+2020-10-25T22:08:04.479+0800: [GC (Allocation Failure)  163600K->148909K(196608K), 0.0043882 secs]
+2020-10-25T22:08:04.484+0800: [Full GC (Ergonomics)  148909K->126626K(196608K), 0.0154848 secs]
+2020-10-25T22:08:04.502+0800: [Full GC (Ergonomics)  151202K->131324K(196608K), 0.0138440 secs]
+2020-10-25T22:08:04.522+0800: [Full GC (Ergonomics)  155863K->136006K(196608K), 0.0147126 secs]
+2020-10-25T22:08:04.540+0800: [Full GC (Ergonomics)  160359K->142134K(196608K), 0.0148027 secs]
+2020-10-25T22:08:04.557+0800: [Full GC (Ergonomics)  166576K->152691K(196608K), 0.0151570 secs]
+2020-10-25T22:08:04.575+0800: [Full GC (Ergonomics)  171299K->156324K(196608K), 0.0163027 secs]
+2020-10-25T22:08:04.593+0800: [Full GC (Ergonomics)  171557K->157429K(196608K), 0.0175745 secs]
+2020-10-25T22:08:04.614+0800: [Full GC (Ergonomics)  171110K->160924K(196608K), 0.0143598 secs]
+2020-10-25T22:08:04.630+0800: [Full GC (Ergonomics)  171189K->164297K(196608K), 0.0349801 secs]
+2020-10-25T22:08:04.667+0800: [Full GC (Ergonomics)  171658K->164877K(196608K), 0.0154508 secs]
+2020-10-25T22:08:04.683+0800: [Full GC (Ergonomics)  171815K->165369K(196608K), 0.0155699 secs]
+2020-10-25T22:08:04.700+0800: [Full GC (Ergonomics)  171387K->166380K(196608K), 0.0383657 secs]
+2020-10-25T22:08:04.740+0800: [Full GC (Ergonomics)  171757K->166476K(196608K), 0.0176987 secs]
+2020-10-25T22:08:04.759+0800: [Full GC (Ergonomics)  170914K->167768K(196608K), 0.0078293 secs]
+2020-10-25T22:08:04.768+0800: [Full GC (Ergonomics)  171867K->169585K(196608K), 0.0180347 secs]
+2020-10-25T22:08:04.787+0800: [Full GC (Ergonomics)  171636K->170156K(196608K), 0.0129353 secs]
+2020-10-25T22:08:04.801+0800: [Full GC (Ergonomics)  171993K->170768K(196608K), 0.0025347 secs]
+2020-10-25T22:08:04.804+0800: [Full GC (Ergonomics)  171816K->170323K(196608K), 0.0176470 secs]
+2020-10-25T22:08:04.821+0800: [Full GC (Ergonomics)  171434K->171279K(196608K), 0.0087295 secs]
+2020-10-25T22:08:04.830+0800: [Full GC (Ergonomics)  171423K->171351K(196608K), 0.0081216 secs]
+2020-10-25T22:08:04.839+0800: [Full GC (Ergonomics)  171963K->171234K(196608K), 0.0175370 secs]
+2020-10-25T22:08:04.856+0800: [Full GC (Ergonomics)  171386K->171264K(196608K), 0.0035813 secs]
+2020-10-25T22:08:04.860+0800: [Full GC (Ergonomics)  171469K->171273K(196608K), 0.0140101 secs]
+2020-10-25T22:08:04.875+0800: [Full GC (Ergonomics)  171414K->171336K(196608K), 0.0025009 secs]
+2020-10-25T22:08:04.878+0800: [Full GC (Ergonomics)  171485K->171408K(196608K), 0.0088617 secs]
+2020-10-25T22:08:04.887+0800: [Full GC (Ergonomics)  171650K->171470K(196608K), 0.0089347 secs]
+2020-10-25T22:08:04.896+0800: [Full GC (Allocation Failure)  171470K->171413K(196608K), 0.0244378 secs]
 Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
-        at GCLogAnalysis.generateGarbage(GCLogAnalysis.java:48)
-        at GCLogAnalysis.main(GCLogAnalysis.java:25)
-
-minor gc  0 - 5 ms
-full gc  0 - 15 ms
-并行gc比串行gc效果好一点，但是gc速度还是跟不上用户线程生产对象速度,并且gc时候会完全阻塞住用户线程.
+        at GCLogAnalysis.generateGarbage(GCLogAnalysis.java:52)
+        at GCLogAnalysis.main(GCLogAnalysis.java:28)
 ```
 ### 并发 - cms
 ```
 java -XX:+UseConcMarkSweepGC -Xms216m -Xmx216m  -XX:+PrintGC   -XX:+PrintGC -XX:+PrintGCDateStamps GCLogAnalysis
-...
+cms 相比 parallel 停顿时间大幅减少,gc 回收频率大幅增加.
+young -> 66M  使用率 85%~
+old  -> 148M   final mark -> 70%
+young gc -> 87%
+一次cmsgc时，中间可能夹杂多次young gc
+cms 由于是 并发执行的,可能存在full gc后，堆使用内存上升的情况.
+2020-10-25T22:19:21.053+0800: [Full GC (Allocation Failure) 2020-10-25T22:19:21.053+0800: [CMS: 147236K->147454K(147456K), 0.0255074 secs] 213491K->183890K(213824K), [Metaspace: 3530K->3530K(1056768K)], 0.0266389 secs] [Times: user=0.02 sys=0.00, real=0.03 secs]
+```
+```
 ....
 2020-10-25T00:12:03.951+0800: [GC (Allocation Failure)  58655K->23044K(213824K), 0.0040934 secs]
 2020-10-25T00:12:03.965+0800: [GC (Allocation Failure)  82052K->40316K(213824K), 0.0049398 secs]
@@ -197,6 +212,9 @@ cms 相对于 并行gc gc时间更短，gc更加频繁
 ### G1
 ```
 java -XX:+UseG1GC -Xms216m -Xmx216m  -XX:+PrintGCDetails -XX:+PrintGCDateStamps GCLogAnalysis
+G1 -> 相对于cms而言 停顿时间更短，回收更频繁，动态调整young区占堆的比例，达到停顿时间可控制。
+      minor gc , mixedGc , full gc
+耗时: oms -3ms
 ```
 ```
 2020-10-25T00:15:04.672+0800: [GC pause (G1 Evacuation Pause) (young) 31M->10M(216M), 0.0022271 secs]
@@ -375,12 +393,12 @@ java.lang.OutOfMemoryError: Java heap space
         at GCLogAnalysis.generateGarbage(GCLogAnalysis.java:48)
         at GCLogAnalysis.main(GCLogAnalysis.java:25)
 
-G1 GC 的young 区不断变大,大部分都是minor gc，有少量的mixed GC,极小的full gc.
-G1 young gc 非常的频繁.
+ 
 ```
 ## 第2题 使用压测工具（wrk或sb），演练gateway-server-0.0.1-SNAPSHOT.jar 示例。
 ```
 sb.exe -u http://localhost:8088/api/hello -c 20 -N 60
+95 line 接近 0ms.
 ```
 ```
 Starting at 2020/10/25 0:46:12
