@@ -7,6 +7,8 @@ young 总大小-> 66M
 old 总大小-> 147M
 young gc触发 年轻代->   87%~
 full  gc触发 堆大小->   94% ~
+
+吞吐量: 在-xmx设为2g后,生成对象17000
 ```
 ```
 2020-10-25T00:02:35.162+0800: [GC (Allocation Failure)  58917K->21050K(213824K), 0.0084469 secs]
@@ -69,6 +71,7 @@ old总大小    ->  148M
 heap        ->  212M ~196M
 young gc 年轻代比例  -> 85%
 full gc 堆比列 -> 75%
+吞吐量: 在-xmx设为2g后,生成对象21000
 ```
 ```
 2020-10-25T22:08:04.394+0800: [GC (Allocation Failure)  55296K->17947K(211968K), 0.0043447 secs]
@@ -122,6 +125,7 @@ young gc -> 87%
 一次cmsgc时，中间可能夹杂多次young gc
 cms 由于是 并发执行的,可能存在full gc后，堆使用内存上升的情况.
 2020-10-25T22:19:21.053+0800: [Full GC (Allocation Failure) 2020-10-25T22:19:21.053+0800: [CMS: 147236K->147454K(147456K), 0.0255074 secs] 213491K->183890K(213824K), [Metaspace: 3530K->3530K(1056768K)], 0.0266389 secs] [Times: user=0.02 sys=0.00, real=0.03 secs]
+吞吐量: 在-xmx设为2g后,生成对象18000，少于Parallel
 ```
 ```
 ....
@@ -215,6 +219,7 @@ java -XX:+UseG1GC -Xms216m -Xmx216m  -XX:+PrintGCDetails -XX:+PrintGCDateStamps 
 G1 -> 相对于cms而言 停顿时间更短，回收更频繁，动态调整young区占堆的比例，达到停顿时间可控制。
       minor gc , mixedGc , full gc
 耗时: oms -3ms
+吞吐量: 在-xmx设为2g后,生成对象10000,吞吐量小于SerialGC
 ```
 ```
 2020-10-25T00:15:04.672+0800: [GC pause (G1 Evacuation Pause) (young) 31M->10M(216M), 0.0022271 secs]
@@ -422,4 +427,22 @@ Avg: 0.1ms
   98%   below 2ms
   99%   below 4ms
 99.9%   below 11ms
+```
+## 第4课 第2题 写一段代码，使用 HttpClient 或 OkHttp 访问 http://localhost:8801
+```java
+String url="http://localhost:8801";
+OkHttpClient okHttpClient=new OkHttpClient();
+Reuqest request=new Request.Builder().url(url).get().build();
+Call call=okHttpClient.newCall(request);
+call.enqueue(new Callback(){
+  @Override
+    public void onFailure(Call call, IOException e) {
+        Log.d(TAG, "onFailure: ");
+    }
+
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+        Log.d(TAG, "onResponse: " + response.body().string());
+    }
+});
 ```
