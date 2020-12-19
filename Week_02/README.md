@@ -434,10 +434,10 @@ String url="http://localhost:8801";
 OkHttpClient okHttpClient=new OkHttpClient();
 Reuqest request=new Request.Builder().url(url).get().build();
 Call call=okHttpClient.newCall(request);
-call.enqueue(new Callback(){ 
+call.enqueue(new Callback(){
   @Override
     public void onFailure(Call call, IOException e) {
-        Log.d(TAG, "onqFailure: ");
+        Log.d(TAG, "onFailure: ");
     }
  
     @Override
